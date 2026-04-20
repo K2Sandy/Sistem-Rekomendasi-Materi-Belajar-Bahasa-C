@@ -9,7 +9,7 @@
 // 0. STRUKTUR DATA UTAMA
 // ========================================================
 typedef struct {
-    int kategoriId; // 1: Info, 2: MTK, 3: Bio, 4: Fis, 5: Sej, 6: Kim
+    int kategoriId; 
     char nama[50];
     char deskripsi[50];
     int tingkatKesulitan; 
@@ -32,9 +32,59 @@ void bersihkanBuffer() {
 }
 
 // ========================================================
+// 1. LINKED LIST (Daftar Belajarku)
+// ========================================================
+typedef struct ListNode {
+    Materi data;
+    struct ListNode* next;
+} ListNode;
+
+typedef struct {
+    ListNode* head;
+} PlaylistLinkedList;
+
+void initLinkedList(PlaylistLinkedList* list) { list->head = NULL; }
+
+void tambahMateri(PlaylistLinkedList* list, Materi m) {
+    ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
+    newNode->data = m;
+    newNode->next = NULL;
+
+    if (list->head == NULL) {
+        list->head = newNode;
+        return;
+    }
+    ListNode* temp = list->head;
+    while (temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
+}
+
+void tampilkanPlaylist(PlaylistLinkedList* list) {
+    if (list->head == NULL) {
+        printf("\n [-] Daftar belajarmu masih kosong.\n");
+        return;
+    }
+    ListNode* temp = list->head;
+    int no = 1;
+    printf("\n =========================================================================\n");
+    printf(" %-4s %-25s %-12s %-10s %s\n", "No", "Judul Materi", "Sulit(/100)", "Waktu", "Keterangan");
+    printf(" -------------------------------------------------------------------------\n");
+    while (temp != NULL) {
+        printf(" %-4d %-25s %-12d %-10d %s\n", no++, temp->data.nama, 
+               temp->data.tingkatKesulitan, temp->data.durasiMenit, temp->data.deskripsi);
+        temp = temp->next;
+    }
+    printf(" =========================================================================\n");
+}
+
+// ========================================================
 // PROGRAM UTAMA
 // ========================================================
 int main() {
+    // Inisialisasi Linked List untuk Playlist
+    PlaylistLinkedList daftarBelajar; 
+    initLinkedList(&daftarBelajar);
+
     bool running = true;
     
     // --- MAIN LOOP ---
@@ -60,7 +110,9 @@ int main() {
                 printf("\n [-] Fitur Rekomendasi masih dalam pengembangan.\n");
                 break;
             case 3:
-                printf("\n [-] Fitur Daftar Belajar masih dalam pengembangan.\n");
+                // Mengaktifkan Menu 3
+                printf("\n=== DAFTAR BELAJARKU ===\n");
+                tampilkanPlaylist(&daftarBelajar);
                 break;
             case 0:
                 printf("\n Terima kasih telah menggunakan EduGraph. Sampai jumpa!\n");
