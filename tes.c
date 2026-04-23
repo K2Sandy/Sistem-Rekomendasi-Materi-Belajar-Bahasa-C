@@ -131,7 +131,13 @@ void prosesPilihMateri(Materi* arr[], int count, PlaylistLinkedList* playlist) {
         } else { printf(" [-] Nomor tidak valid.\n"); }
     }
 }
-
+void preorderTraversalBST(BSTNode* node, const char* prefix) {
+    if (node == NULL) return;
+    printf(" %s|-- %s (Kesulitan: %d)\n", prefix, node->data.nama, node->data.tingkatKesulitan);
+    char newPrefix[100]; strcpy(newPrefix, prefix); strcat(newPrefix, "    ");
+    preorderTraversalBST(node->left, newPrefix);
+    preorderTraversalBST(node->right, newPrefix);
+}
 // ========================================================
 // PROGRAM UTAMA
 // ========================================================
