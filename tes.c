@@ -175,25 +175,26 @@ int main() {
         printf(" Pilih menu (0-3): "); scanf("%d", &pilihanUtama); bersihkanBuffer();
 
         switch (pilihanUtama) {
-            case 1: { 
+case 1: { 
                 bool inKatalog = true;
                 while (inKatalog) {
                     printf("\n=== KATALOG PELAJARAN ===\n");
-                    for (int i = 0; i < menuRoot->children[0]->numChildren; i++) {
-                        printf(" %d. %s\n", menuRoot->children[0]->children[i]->idKategori, menuRoot->children[0]->children[i]->namaKategori);
-                    }
-                    for (int i = 0; i < menuRoot->children[1]->numChildren; i++) {
-                        printf(" %d. %s\n", menuRoot->children[1]->children[i]->idKategori, menuRoot->children[1]->children[i]->namaKategori);
-                    }
-                    printf(" 0. Kembali ke menu utama\n Pilih (0-6): ");
+                    for (int i = 0; i < menuRoot->children[0]->numChildren; i++) printf(" %d. %s\n", menuRoot->children[0]->children[i]->idKategori, menuRoot->children[0]->children[i]->namaKategori);
+                    for (int i = 0; i < menuRoot->children[1]->numChildren; i++) printf(" %d. %s\n", menuRoot->children[1]->children[i]->idKategori, menuRoot->children[1]->children[i]->namaKategori);
+                    printf(" 7. [Mode Admin] Visualisasi Struktur Memori BST (Preorder)\n");
+                    printf(" 0. Kembali ke menu utama\n Pilih (0-7): ");
                     int pilKat; scanf("%d", &pilKat); bersihkanBuffer();
 
                     if (pilKat == 0) inKatalog = false;
+                    else if (pilKat == 7) {
+                        printf("\n=== VISUALISASI STRUKTUR DATABASE (PREORDER) ===\n Menampilkan susunan asli memori BST untuk keperluan Data Serialization.\n --------------------------------------------------------\n");
+                        preorderTraversalBST(rootBST, "");
+                        printf("\n Tekan [Enter] untuk kembali..."); getchar();
+                    }
                     else if (pilKat >= 1 && pilKat <= 6) {
                         Materi* arrTemp[50]; int count = 0;
                         kumpulkanMateriInorder(rootBST, pilKat, 9999, 9999, arrTemp, &count);
-                        printf("\n Menampilkan materi terpilih:");
-                        prosesPilihMateri(arrTemp, count, &daftarBelajar);
+                        printf("\n Menampilkan materi terpilih:"); prosesPilihMateri(arrTemp, count, &daftarBelajar);
                     } else printf(" [-] Pilihan tidak valid!\n");
                 }
                 break;
