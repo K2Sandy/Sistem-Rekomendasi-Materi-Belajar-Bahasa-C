@@ -1,0 +1,16 @@
+# Hasil Compile / Executable (Paling penting biar .exe ga ikut ke-push)
+*.exe
+*.out
+*.app
+*.o
+*.obj
+
+# Folder konfigurasi VS Code lokal (biar path komputermu ga bocor)
+.vscode/
+
+# MacOS hidden files (jaga-jaga kalau aslabmu buka pakai Mac)
+.DS_Store
+
+# File log atau crash
+*.log
+*.crash
