@@ -177,6 +177,12 @@ int main() {
     rootBST = insertBST(rootBST, buatMateri(10, "Ekonomi Makro",     "GDP & inflasi.",           50, 55));
     rootBST = insertBST(rootBST, buatMateri(10, "Pasar Modal",       "Saham & obligasi.",        65, 60));
     rootBST = insertBST(rootBST, buatMateri(10, "Ekonomi Global",    "Perdagangan internasional.",80, 70));
+
+    rootBST = insertBST(rootBST, buatMateri(11, "Pengantar Sosiologi","Konsep masyarakat.",      10, 25));
+    rootBST = insertBST(rootBST, buatMateri(11, "Stratifikasi Sosial","Kelas sosial.",           30, 35));
+    rootBST = insertBST(rootBST, buatMateri(11, "Lembaga Sosial",    "Keluarga & agama.",        40, 40));
+    rootBST = insertBST(rootBST, buatMateri(11, "Perubahan Sosial",  "Modernisasi.",             55, 50));
+    rootBST = insertBST(rootBST, buatMateri(11, "Konflik Sosial",    "Teori konflik.",           70, 60));
     bool running = true;
     while (running) {
         int pilihanUtama;
