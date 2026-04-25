@@ -172,6 +172,11 @@ int main() {
     rootBST = insertBST(rootBST, buatMateri(5, "Perang Dingin", "Blok Barat Timur.", 50, 40)); rootBST = insertBST(rootBST, buatMateri(5, "Manusia Purba", "Zaman batu.", 15, 25)); rootBST = insertBST(rootBST, buatMateri(5, "Perang Dunia II", "Eropa 1940an.", 20, 30)); rootBST = insertBST(rootBST, buatMateri(5, "Kemerdekaan RI", "1945.", 30, 35)); rootBST = insertBST(rootBST, buatMateri(5, "Revolusi Industri", "Eropa abad 18.", 40, 45));
     rootBST = insertBST(rootBST, buatMateri(6, "Asam & Basa", "Skala pH.", 50, 45)); rootBST = insertBST(rootBST, buatMateri(6, "Tabel Periodik", "Unsur dasar.", 20, 30)); rootBST = insertBST(rootBST, buatMateri(6, "Ikatan Kimia", "Kovalen Ionik.", 40, 40)); rootBST = insertBST(rootBST, buatMateri(6, "Stoikiometri", "Mol.", 60, 70)); rootBST = insertBST(rootBST, buatMateri(6, "Kimia Organik", "Karbon.", 80, 90));
 
+    rootBST = insertBST(rootBST, buatMateri(10, "Pengantar Ekonomi", "Supply & demand.",         15, 25));
+    rootBST = insertBST(rootBST, buatMateri(10, "Akuntansi Dasar",   "Neraca & jurnal.",         35, 50));
+    rootBST = insertBST(rootBST, buatMateri(10, "Ekonomi Makro",     "GDP & inflasi.",           50, 55));
+    rootBST = insertBST(rootBST, buatMateri(10, "Pasar Modal",       "Saham & obligasi.",        65, 60));
+    rootBST = insertBST(rootBST, buatMateri(10, "Ekonomi Global",    "Perdagangan internasional.",80, 70));
     bool running = true;
     while (running) {
         int pilihanUtama;
