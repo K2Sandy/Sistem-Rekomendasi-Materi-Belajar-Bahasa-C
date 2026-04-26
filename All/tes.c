@@ -183,6 +183,12 @@ int main() {
     rootBST = insertBST(rootBST, buatMateri(11, "Lembaga Sosial",    "Keluarga & agama.",        40, 40));
     rootBST = insertBST(rootBST, buatMateri(11, "Perubahan Sosial",  "Modernisasi.",             55, 50));
     rootBST = insertBST(rootBST, buatMateri(11, "Konflik Sosial",    "Teori konflik.",           70, 60));
+    
+    rootBST = insertBST(rootBST, buatMateri(7, "Menggambar Dasar",  "Garis & bentuk.",          10, 30));
+    rootBST = insertBST(rootBST, buatMateri(7, "Teori Warna",       "Roda warna pigmen.",        20, 25));
+    rootBST = insertBST(rootBST, buatMateri(7, "Seni Lukis",        "Teknik cat & kanvas.",      40, 60));
+    rootBST = insertBST(rootBST, buatMateri(7, "Desain Grafis",     "Prinsip layout.",           55, 50));
+    rootBST = insertBST(rootBST, buatMateri(7, "Seni Patung",       "Teknik cetak & pahat.",     70, 90));
     bool running = true;
     while (running) {
         int pilihanUtama;
