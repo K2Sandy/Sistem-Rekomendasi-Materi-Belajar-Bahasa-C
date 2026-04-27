@@ -14,14 +14,37 @@ Materi buatMateri(int katId, const char* nama, const char* desk, int kesulitan, 
     m.tingkatKesulitan = kesulitan; m.durasiMenit = durasi; return m;
 }
 
-void bersihkanBuffer() { int c; while ((c = getchar()) != '\n' && c != EOF); }
-typedef struct ListNode { Materi data; struct ListNode* next; } ListNode;
-typedef struct { ListNode* head; } PlaylistLinkedList;
-void initLinkedList(PlaylistLinkedList* list) { list->head = NULL; }
+void bersihkanBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+typedef struct ListNode {
+    Materi data;
+    struct ListNode* next;
+} ListNode;
+
+typedef struct {
+    ListNode* head;
+} PlaylistLinkedList;
+
+void initLinkedList(PlaylistLinkedList* list) {
+    list->head = NULL;
+}
+
 void tambahMateri(PlaylistLinkedList* list, Materi m) {
-    ListNode* newNode = (ListNode*)malloc(sizeof(ListNode)); newNode->data = m; newNode->next = NULL;
-    if (list->head == NULL) { list->head = newNode; return; }
-    ListNode* temp = list->head; while (temp->next != NULL) temp = temp->next; temp->next = newNode;
+    ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
+    newNode->data = m;
+    newNode->next = NULL;
+
+    if (list->head == NULL) {
+        list->head = newNode;
+        return;
+    }
+
+    ListNode* temp = list->head;
+    while (temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
 }
 void tampilkanPlaylist(PlaylistLinkedList* list) {
     if (list->head == NULL) { printf("\n [-] Daftar belajarmu masih kosong.\n"); return; }
