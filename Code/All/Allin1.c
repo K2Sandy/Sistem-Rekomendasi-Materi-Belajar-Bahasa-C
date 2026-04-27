@@ -114,14 +114,26 @@ void insertionSortByKesulitan(PlaylistLinkedList* list) {
 // ========================================================
 // 2. BINARY SEARCH TREE & INORDER TRAVERSAL
 // ========================================================
-typedef struct BSTNode { Materi data; struct BSTNode* left; struct BSTNode* right; } BSTNode;
+typedef struct BSTNode {
+    Materi          data;
+    struct BSTNode* left;
+    struct BSTNode* right;
+} BSTNode;
+
 BSTNode* insertBST(BSTNode* node, Materi m) {
     if (node == NULL) {
-        BSTNode* newNode = (BSTNode*)malloc(sizeof(BSTNode)); newNode->data = m; 
-        newNode->left = NULL; newNode->right = NULL; return newNode;
+        BSTNode* newNode = (BSTNode*)malloc(sizeof(BSTNode));
+        newNode->data  = m;
+        newNode->left  = NULL;
+        newNode->right = NULL;
+        return newNode;
     }
-    if (m.tingkatKesulitan < node->data.tingkatKesulitan) node->left = insertBST(node->left, m);
-    else if (m.tingkatKesulitan > node->data.tingkatKesulitan) node->right = insertBST(node->right, m);
+
+    if (m.tingkatKesulitan < node->data.tingkatKesulitan)
+        node->left  = insertBST(node->left,  m);
+    else
+        node->right = insertBST(node->right, m);
+
     return node;
 }
 
