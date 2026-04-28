@@ -152,6 +152,7 @@ int main() {
     addChild(sains, buatNodeTree(1, "Informatika")); addChild(sains, buatNodeTree(2, "Matematika"));
     addChild(sains, buatNodeTree(3, "Biologi")); addChild(sains, buatNodeTree(4, "Fisika"));
     addChild(sains, buatNodeTree(6, "Kimia")); addChild(soshum, buatNodeTree(5, "Sejarah"));
+    addChild(soshum, buatNodeTree(10, "Ekonomi")); addChild(soshum, buatNodeTree(11, "Sosiologi"));
 
     // --- SETUP BST MATERI ---
     rootBST = insertBST(rootBST, buatMateri(1, "Tree & BST", "Hirarki data non-linear.", 50, 45)); rootBST = insertBST(rootBST, buatMateri(1, "Logika Dasar", "Fondasi algoritma.", 10, 30)); rootBST = insertBST(rootBST, buatMateri(1, "Array 1 Dimensi", "Memori sekuensial.", 20, 25)); rootBST = insertBST(rootBST, buatMateri(1, "Linked List", "Pointer data dinamis.", 30, 60)); rootBST = insertBST(rootBST, buatMateri(1, "Graph Theory", "Rute Dijkstra.", 80, 90));
