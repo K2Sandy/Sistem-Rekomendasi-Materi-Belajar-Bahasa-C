@@ -62,19 +62,27 @@ void tampilkanPlaylist(PlaylistLinkedList* list) {
 // SORTING 1: Berdasarkan Waktu Tercepat
 void insertionSortByDurasi(PlaylistLinkedList* list) {
     if (list->head == NULL || list->head->next == NULL) return;
-    ListNode* sorted = NULL; ListNode* current = list->head; 
+
+    ListNode* sorted  = NULL;
+    ListNode* current = list->head;
+
     while (current != NULL) {
-        ListNode* nextNode = current->next; 
+        ListNode* nextNode = current->next;
+
         if (sorted == NULL || sorted->data.durasiMenit >= current->data.durasiMenit) {
-            current->next = sorted; sorted = current;
+            current->next = sorted;
+            sorted = current;
         } else {
             ListNode* temp = sorted;
-            while (temp->next != NULL && temp->next->data.durasiMenit < current->data.durasiMenit) temp = temp->next;
-            current->next = temp->next; temp->next = current;
+            while (temp->next != NULL &&
+                   temp->next->data.durasiMenit < current->data.durasiMenit)
+                temp = temp->next;
+            current->next = temp->next;
+            temp->next    = current;
         }
-        current = nextNode; 
+        current = nextNode;
     }
-    list->head = sorted; 
+    list->head = sorted;
 }
 
 // SORTING 2: Berdasarkan Tingkat Kesulitan Terendah
