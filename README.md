@@ -34,8 +34,8 @@
 
 ## 🛠 Arsitektur Sistem
 
-Sistem mengintegrasikan **3 struktur data**
-dan **3 algoritma utama** untuk mendukung
+Sistem mengintegrasikan **3 struktur data dan algoritma utama**
+untuk mendukung
 fitur katalog materi, rekomendasi belajar,
 dan pengelolaan daftar belajar pengguna.
 
