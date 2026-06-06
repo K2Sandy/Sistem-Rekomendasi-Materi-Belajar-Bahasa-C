@@ -12,8 +12,7 @@
 
 <br>
 
-> **EduGraph** adalah aplikasi CLI (*Command-Line Interface*) berbahasa C yang membantu mahasiswa mengelola alur belajar secara cerdas menggunakan **Arsitektur Struktur Data Hibrida** — menggabungkan General Tree, Binary Search Tree, dan Linked List dalam satu sistem yang terintegrasi.
-
+> **EduGraph** adalah aplikasi berbasis Command Line Interface (CLI) yang membantu pengguna menyusun materi belajar secara terstruktur berdasarkan kategori, tingkat kesulitan, dan durasi belajar. Sistem ini menggabungkan beberapa struktur data dalam satu implementasi untuk mensimulasikan proses pencarian, rekomendasi, dan pengelolaan materi pembelajaran. Pengguna dapat memilih materi dari katalog yang tersedia, menerima rekomendasi berdasarkan batas waktu dan tingkat kesulitan, serta menyusun daftar belajar pribadi yang dapat diurutkan sesuai kebutuhan.
 <br>
 
 </div>
@@ -27,7 +26,7 @@
 |:---:|---|---|
 | 1 | 📚 **Katalog Silabus Bertingkat** | Navigasi hirarki 3 level: Rumpun Ilmu → Mata Pelajaran → Materi |
 | 2 | 🤖 **Rekomendasi Cerdas** | Filter materi berdasarkan batas waktu & tingkat kesulitan secara otomatis |
-| 3 | 📋 **Daftar Belajarku** | Antrean dinamis (*queue*) untuk menampung materi pilihan pengguna |
+| 3 | 📋 **Daftar Belajarku** | Daftar belajar dinamis berbasis Linked List untuk menyimpan materi pilihan pengguna |
 | 4 | ⚡ **Smart Sorting** | Urutkan playlist berdasarkan durasi tercepat atau kesulitan termudah |
 | 5 | 🗺️ **Mode Peta Silabus** | Visualisasi seluruh pohon materi BST secara *real-time* (Preorder) |
 
@@ -35,25 +34,27 @@
 
 ## 🛠 Arsitektur Sistem
 
-Sistem menghindari array statis dan mengintegrasikan **3 struktur data** serta **3 algoritma utama**:
+Sistem mengintegrasikan **3 struktur data**
+dan **3 algoritma utama** untuk mendukung
+fitur katalog materi, rekomendasi belajar,
+dan pengelolaan daftar belajar pengguna.
 
 ### 🌳 Struktur Data
 
 | Struktur | Peran | Kompleksitas |
 |---|---|:---:|
 | **General Tree** | Mengelola kategori berjenjang (Root → Rumpun → Mapel) | O(n) |
-| **Binary Search Tree** | Menyimpan & mencari materi berdasarkan tingkat kesulitan | O(log n) |
+| **Binary Search Tree** | Menyimpan materi berdasarkan tingkat kesulitan dan mendukung proses traversal | O(log n) |
 | **Linked List** | Wadah Daftar Belajar dengan alokasi memori dinamis | O(1) |
 
 ### ⚙️ Algoritma
 
 | Algoritma | Implementasi | Kegunaan |
 |---|---|---|
-| **Inorder Traversal** | BST → kiri, root, kanan | Ekstrak materi otomatis dari termudah ke tersulit |
-| **Insertion Sort** | Langsung pada pointer Linked List | Sorting playlist tanpa memori tambahan |
-| **Preorder Traversal** | BST → root, kiri, kanan | Visualisasi peta silabus (Mode Admin) |
-| **Binary Searcg** | Hirarkti BST | Mencari Materi Rekomendasi |
-
+| **Inorder Traversal** | BST → kiri, root, kanan | Menampilkan materi dari tingkat kesulitan terendah ke tertinggi |
+| **Insertion Sort** | Linked List | Mengurutkan daftar belajar berdasarkan durasi |
+| **Insertion Sort** | Linked List | Mengurutkan daftar belajar berdasarkan tingkat kesulitan |
+| **Preorder Traversal** | BST → root, kiri, kanan | Visualisasi struktur BST pada Mode Admin |
 ---
 
 ## 💻 Cara Menjalankan
@@ -90,19 +91,37 @@ gcc -Wall -std=c11 main.c materi.c linked_list.c bst.c tree.c ui.c -o edugraph
 
 ---
 
+---
+
+## 🖥️ Tampilan Program
+
+### Menu Utama
+
+```text
+======================================================
+         SISTEM ASISTEN BELAJAR EDUGRAPH
+======================================================
+ 1. Katalog & Silabus Pelajaran
+ 2. Sistem Rekomendasi Belajar (Filter Cerdas)
+ 3. Lihat Daftar Belajarku
+ 0. Keluar Aplikasi
+======================================================
+ Pilih menu (0-3):
+```
+
 ## 👥 Tim Pengembang
 
 EduGraph dikembangkan secara kolaboratif oleh Mahasiswa **S1 Informatika**, Fakultas Matematika dan Ilmu Pengetahuan Alam, **Universitas Syiah Kuala** sebagai proyek UTS Praktikum Struktur Data dan Algoritma.
 
 <div align="center">
 
-| No | Nama | NPM |
-|:---:|---|:---:|
-| 1 | **Muhammad Albharaka** | 250810701100022 |
-| 2 | **Putroe Zalfa** | 250810701100024 |
-| 3 | **Al Aul Tsaqif** | 250810701100034 |
-| 4 | **Imam As-Shadiq** | 250810701100079 |
-| 5 | **Hally Lubbaba** | 250810701100110 |
+| Nama | Kontribusi Utama |
+|--------|----------------|
+| Muhammad Albharaka | Implementasi General Tree dan sistem menu |
+| Putroe Zalfa | Implementasi BST dan Traversal |
+| Al Aul Tsaqif | Implementasi Linked List |
+| Imam As-Shadiq | Implementasi Sorting dan Sistem Rekomendasi |
+| Hally Lubbaba | Dokumentasi, Pengujian Program, dan README |
 
 </div>
 
