@@ -1,8 +1,4 @@
-# Makefile untuk folder Code
-# Gunakan dari direktori Code:
-#   mingw32-make
-#   mingw32-make allinone
-#   mingw32-make clean
+
 
 CC = gcc
 CFLAGS = -Wall -std=c11

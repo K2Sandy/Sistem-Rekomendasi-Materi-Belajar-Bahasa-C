@@ -84,6 +84,10 @@ gcc -Wall -std=c11 main.c -o edugraph
 cd code/bagian
 gcc -Wall -std=c11 main.c materi.c linked_list.c bst.c tree.c ui.c -o edugraph
 
+# ---> Opsi c: Versi Gunakan Makefile
+cd code
+gcc -Wall -std=c11 main.c materi.c linked_list.c bst.c tree.c ui.c -o edugraph
+
 # 3. Jalankan program
 ./edugraph      # Untuk Linux / macOS
 .\edugraph.exe  # Untuk Windows
