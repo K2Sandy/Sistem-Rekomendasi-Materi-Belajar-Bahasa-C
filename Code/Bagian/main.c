@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "materi.h"
 #include "linked_list.h"
@@ -45,6 +47,31 @@ static TreeNode* setupTree() {
     addChild(olahragaKes, buatNodeTree(11, "Pendidikan Jasmani"));
 
     return root;
+}
+
+// ------------------------------------------------------------
+// Helper: Flatten kategori dengan ID dan nama untuk daftar
+// ------------------------------------------------------------
+typedef struct {
+    int id;
+    char nama[100];
+} KategoriInfo;
+
+static int kumpulkanSemuaKategori(TreeNode* node, KategoriInfo* out, int idx) {
+    if (node == NULL) return idx;
+    if (node->idKategori != 0 && node->numChildren == 0) {
+        out[idx].id = node->idKategori;
+        strcpy(out[idx].nama, node->namaKategori);
+        return idx + 1;
+    }
+    for (int i = 0; i < node->numChildren; i++) {
+        idx = kumpulkanSemuaKategori(node->children[i], out, idx);
+    }
+    return idx;
+}
+
+static int cmpKategori(const void* a, const void* b) {
+    return ((KategoriInfo*)a)->id - ((KategoriInfo*)b)->id;
 }
 
 // ------------------------------------------------------------
@@ -164,60 +191,42 @@ int main() {
             case 1: {
                 bool inKatalog = true;
                 while (inKatalog) {
-                    printf("\n=== KATALOG PELAJARAN ===\n");
-                    printf(" Pilih Rumpun Ilmu:\n");
-                    for (int i = 0; i < menuRoot->numChildren; i++)
-                        printf(" %d. %s\n", i + 1, menuRoot->children[i]->namaKategori);
-                    printf(" %d. Lihat Peta Silabus Lengkap (Preorder BST)\n",
-                           menuRoot->numChildren + 1);
-                    printf(" 0. Kembali ke menu utama\n");
-                    printf(" Pilih (0-%d): ", menuRoot->numChildren + 1);
+                    KategoriInfo kategoriList[50];
+                    int jmlKat = kumpulkanSemuaKategori(menuRoot, kategoriList, 0);
+                    qsort(kategoriList, jmlKat, sizeof(KategoriInfo), cmpKategori);
 
-                    int pilRumpun;
-                    scanf("%d", &pilRumpun);
+                    printf("\n=== KATALOG PELAJARAN ===\n");
+                    for (int i = 0; i < jmlKat; i++) {
+                        printf(" %d. %s\n", kategoriList[i].id, kategoriList[i].nama);
+                    }
+                    printf("\n 99. [Mode Admin] Visualisasi Struktur Memori BST (Preorder)\n");
+                    printf(" 0. Kembali ke menu utama\n");
+                    printf(" Pilih ID Mata Pelajaran (atau 0/99): ");
+
+                    int pilKat;
+                    scanf("%d", &pilKat);
                     bersihkanBuffer();
 
-                    if (pilRumpun == 0) {
+                    if (pilKat == 0) {
                         inKatalog = false;
-                    }
-                    else if (pilRumpun == menuRoot->numChildren + 1) {
-                        printf("\n=== PETA SILABUS HIERARKI MATERI ===\n");
+                    } else if (pilKat == 99) {
+                        printf("\n=== VISUALISASI STRUKTUR DATABASE (PREORDER) ===\n");
                         preorderTraversalBST(rootBST, "");
                         printf("\n Tekan [Enter] untuk kembali..."); getchar();
-                    }
-                    else if (pilRumpun >= 1 && pilRumpun <= menuRoot->numChildren) {
-                        TreeNode* rumpun = menuRoot->children[pilRumpun - 1];
-
-                        bool inMapel = true;
-                        while (inMapel) {
-                            printf("\n=== %s ===\n", rumpun->namaKategori);
-                            printf(" Pilih Mata Pelajaran:\n");
-                            for (int j = 0; j < rumpun->numChildren; j++)
-                                printf(" %d. %s\n", j + 1, rumpun->children[j]->namaKategori);
-                            printf(" 0. Kembali ke pilih rumpun\n");
-                            printf(" Pilih (0-%d): ", rumpun->numChildren);
-
-                            int pilMapel;
-                            scanf("%d", &pilMapel);
-                            bersihkanBuffer();
-
-                            if (pilMapel == 0) {
-                                inMapel = false;
-                            }
-                            else if (pilMapel >= 1 && pilMapel <= rumpun->numChildren) {
-                                TreeNode* mapel = rumpun->children[pilMapel - 1];
-                                Materi*   arr[50];
-                                int       count = 0;
-                                kumpulkanMateriInorder(rootBST, mapel->idKategori,
-                                                       9999, 9999, arr, &count);
-                                printf("\n Menampilkan semua materi %s:", mapel->namaKategori);
-                                prosesPilihMateri(arr, count, &daftarBelajar);
-                            } else {
-                                printf(" [-] Pilihan tidak valid!\n");
-                            }
-                        }
                     } else {
-                        printf(" [-] Pilihan tidak valid!\n");
+                        bool valid = false;
+                        for (int i = 0; i < jmlKat; i++) {
+                            if (kategoriList[i].id == pilKat) { valid = true; break; }
+                        }
+                        if (valid) {
+                            Materi* arrTemp[50];
+                            int count = 0;
+                            kumpulkanMateriInorder(rootBST, pilKat, 9999, 9999, arrTemp, &count);
+                            if (count == 0) printf("\n [-] Tidak ada materi untuk kategori ini.\n");
+                            else prosesPilihMateri(arrTemp, count, &daftarBelajar);
+                        } else {
+                            printf(" [-] ID Kategori tidak valid.\n");
+                        }
                     }
                 }
                 break;
@@ -227,59 +236,45 @@ int main() {
             case 2: {
                 bool inRekomendasi = true;
                 while (inRekomendasi) {
-                    printf("\n=== SISTEM REKOMENDASI ===\n");
-                    printf(" Pilih Rumpun Ilmu:\n");
-                    for (int i = 0; i < menuRoot->numChildren; i++)
-                        printf(" %d. %s\n", i + 1, menuRoot->children[i]->namaKategori);
-                    printf(" 0. Kembali ke menu utama\n");
-                    printf(" Pilih (0-%d): ", menuRoot->numChildren);
+                    KategoriInfo kategoriList[50];
+                    int jmlKat = kumpulkanSemuaKategori(menuRoot, kategoriList, 0);
+                    qsort(kategoriList, jmlKat, sizeof(KategoriInfo), cmpKategori);
 
-                    int pilRumpun;
-                    scanf("%d", &pilRumpun);
+                    printf("\n=== SISTEM REKOMENDASI ===\n");
+                    for (int i = 0; i < jmlKat; i++) {
+                        printf(" %d. %s\n", kategoriList[i].id, kategoriList[i].nama);
+                    }
+                    printf(" 0. Kembali\n");
+                    printf(" Pilih ID Mata Pelajaran: ");
+
+                    int pilPelajaran;
+                    scanf("%d", &pilPelajaran);
                     bersihkanBuffer();
 
-                    if (pilRumpun == 0) {
+                    if (pilPelajaran == 0) {
                         inRekomendasi = false;
-                    }
-                    else if (pilRumpun >= 1 && pilRumpun <= menuRoot->numChildren) {
-                        TreeNode* rumpun = menuRoot->children[pilRumpun - 1];
+                    } else {
+                        bool valid = false;
+                        for (int i = 0; i < jmlKat; i++) {
+                            if (kategoriList[i].id == pilPelajaran) { valid = true; break; }
+                        }
+                        if (!valid) {
+                            printf(" [-] ID tidak valid.\n");
+                            continue;
+                        }
 
-                        printf("\n=== %s ===\n", rumpun->namaKategori);
-                        printf(" Pilih Mata Pelajaran:\n");
-                        for (int j = 0; j < rumpun->numChildren; j++)
-                            printf(" %d. %s\n", j + 1, rumpun->children[j]->namaKategori);
-                        printf(" 0. Kembali\n");
-                        printf(" Pilih (0-%d): ", rumpun->numChildren);
-
-                        int pilMapel;
-                        scanf("%d", &pilMapel);
+                        int batasWaktu, batasSulit;
+                        printf(" Maksimal waktu belajar (menit) : ");
+                        scanf("%d", &batasWaktu);
+                        printf(" Maksimal kesulitan (1-100)     : ");
+                        scanf("%d", &batasSulit);
                         bersihkanBuffer();
 
-                        if (pilMapel == 0) {
-                            // kembali ke loop pilih rumpun
-                        }
-                        else if (pilMapel >= 1 && pilMapel <= rumpun->numChildren) {
-                            TreeNode* mapel = rumpun->children[pilMapel - 1];
-
-                            int batasWaktu, batasSulit;
-                            printf("\n --- Filter Rekomendasi: %s ---\n", mapel->namaKategori);
-                            printf(" Maksimal waktu belajar (menit) : ");
-                            scanf("%d", &batasWaktu);
-                            printf(" Maksimal kesulitan (1-100)     : ");
-                            scanf("%d", &batasSulit);
-                            bersihkanBuffer();
-
-                            Materi* arr[50];
-                            int     count = 0;
-                            kumpulkanMateriInorder(rootBST, mapel->idKategori,
-                                                   batasWaktu, batasSulit, arr, &count);
-                            printf("\n Rekomendasi materi %s untukmu:", mapel->namaKategori);
-                            prosesPilihMateri(arr, count, &daftarBelajar);
-                        } else {
-                            printf(" [-] Pilihan tidak valid!\n");
-                        }
-                    } else {
-                        printf(" [-] Pilihan tidak valid!\n");
+                        Materi* arrTemp[50];
+                        int count = 0;
+                        kumpulkanMateriInorder(rootBST, pilPelajaran, batasWaktu, batasSulit, arrTemp, &count);
+                        printf("\n Rekomendasi materi untukmu:");
+                        prosesPilihMateri(arrTemp, count, &daftarBelajar);
                     }
                 }
                 break;
