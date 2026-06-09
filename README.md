@@ -78,7 +78,7 @@ cd UTS-PRAK-SDA-KELOMPOK-1
 
 # ---> Opsi A: Versi All-in-One (satu file)
 cd code/allinone
-gcc -Wall -std=c11 main.c -o edugraph
+gcc -Wall -std=c11 Allin1.c -o edugraph
 
 # ---> Opsi B: Versi Modular (banyak file)
 cd code/bagian
