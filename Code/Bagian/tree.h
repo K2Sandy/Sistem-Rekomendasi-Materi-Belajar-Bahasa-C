@@ -16,5 +16,8 @@ typedef struct TreeNode {
 
 TreeNode* buatNodeTree(int id, const char* nama);
 void      addChild    (TreeNode* parent, TreeNode* child);
+void      visualisasiTreeHierarki(TreeNode* node, int level, int showId);
+int       kumpulkanRumpun(TreeNode* node, TreeNode** rumpunOut);
+int       kumpulkanMataPelajaranDariRumpun(TreeNode* rumpun, TreeNode** mapelOut);
 
 #endif // TREE_H

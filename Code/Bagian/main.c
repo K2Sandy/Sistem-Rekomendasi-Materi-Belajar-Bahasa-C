@@ -191,42 +191,68 @@ int main() {
             case 1: {
                 bool inKatalog = true;
                 while (inKatalog) {
-                    KategoriInfo kategoriList[50];
-                    int jmlKat = kumpulkanSemuaKategori(menuRoot, kategoriList, 0);
-                    qsort(kategoriList, jmlKat, sizeof(KategoriInfo), cmpKategori);
+                    // LEVEL 1: Tampilkan Rumpun
+                    TreeNode* rumpunList[50];
+                    int jmlRumpun = kumpulkanRumpun(menuRoot, rumpunList);
 
-                    printf("\n=== KATALOG PELAJARAN ===\n");
-                    for (int i = 0; i < jmlKat; i++) {
-                        printf(" %d. %s\n", kategoriList[i].id, kategoriList[i].nama);
+                    printf("\n======= KATALOG PELAJARAN (Pilih Rumpun) =======\n");
+                    for (int i = 0; i < jmlRumpun; i++) {
+                        printf(" %d. %s\n", i + 1, rumpunList[i]->namaKategori);
                     }
-                    printf("\n 99. [Mode Admin] Visualisasi Struktur Memori BST (Preorder)\n");
+                    printf(" 99. [Mode Admin] Visualisasi Struktur Database (Preorder)\n");
                     printf(" 0. Kembali ke menu utama\n");
-                    printf(" Pilih ID Mata Pelajaran (atau 0/99): ");
+                    printf(" Pilih (0-%d atau 99): ", jmlRumpun);
 
-                    int pilKat;
-                    scanf("%d", &pilKat);
+                    int pilRumpun;
+                    scanf("%d", &pilRumpun);
                     bersihkanBuffer();
 
-                    if (pilKat == 0) {
+                    if (pilRumpun == 0) {
                         inKatalog = false;
-                    } else if (pilKat == 99) {
+                    } else if (pilRumpun == 99) {
                         printf("\n=== VISUALISASI STRUKTUR DATABASE (PREORDER) ===\n");
                         preorderTraversalBST(rootBST, "");
                         printf("\n Tekan [Enter] untuk kembali..."); getchar();
+                    } else if (pilRumpun >= 1 && pilRumpun <= jmlRumpun) {
+                        // LEVEL 2: Tampilkan Mata Pelajaran dalam Rumpun
+                        TreeNode* selectedRumpun = rumpunList[pilRumpun - 1];
+                        TreeNode* mapelList[50];
+                        int jmlMapel = kumpulkanMataPelajaranDariRumpun(selectedRumpun, mapelList);
+
+                        bool inRumpun = true;
+                        while (inRumpun) {
+                            printf("\n======= %s =======\n", selectedRumpun->namaKategori);
+                            for (int i = 0; i < jmlMapel; i++) {
+                                printf(" %d. [%d] %s\n", i + 1, mapelList[i]->idKategori, mapelList[i]->namaKategori);
+                            }
+                            printf(" 0. Kembali ke pilihan rumpun\n");
+                            printf(" Pilih (0-%d): ", jmlMapel);
+
+                            int pilMapel;
+                            scanf("%d", &pilMapel);
+                            bersihkanBuffer();
+
+                            if (pilMapel == 0) {
+                                inRumpun = false;
+                            } else if (pilMapel >= 1 && pilMapel <= jmlMapel) {
+                                // LEVEL 3: Tampilkan Materi untuk Mata Pelajaran
+                                TreeNode* selectedMapel = mapelList[pilMapel - 1];
+                                Materi* arrTemp[50];
+                                int count = 0;
+                                kumpulkanMateriInorder(rootBST, selectedMapel->idKategori, 9999, 9999, arrTemp, &count);
+
+                                printf("\n=========== MATERI: %s ===========\n", selectedMapel->namaKategori);
+                                if (count == 0) {
+                                    printf(" [-] Tidak ada materi untuk mata pelajaran ini.\n");
+                                } else {
+                                    prosesPilihMateri(arrTemp, count, &daftarBelajar);
+                                }
+                            } else {
+                                printf(" [-] Pilihan tidak valid.\n");
+                            }
+                        }
                     } else {
-                        bool valid = false;
-                        for (int i = 0; i < jmlKat; i++) {
-                            if (kategoriList[i].id == pilKat) { valid = true; break; }
-                        }
-                        if (valid) {
-                            Materi* arrTemp[50];
-                            int count = 0;
-                            kumpulkanMateriInorder(rootBST, pilKat, 9999, 9999, arrTemp, &count);
-                            if (count == 0) printf("\n [-] Tidak ada materi untuk kategori ini.\n");
-                            else prosesPilihMateri(arrTemp, count, &daftarBelajar);
-                        } else {
-                            printf(" [-] ID Kategori tidak valid.\n");
-                        }
+                        printf(" [-] Pilihan tidak valid.\n");
                     }
                 }
                 break;
