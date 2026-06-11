@@ -54,6 +54,7 @@ dan pengelolaan daftar belajar pengguna.
 | **Inorder Traversal** | BST → kiri, root, kanan | Menampilkan materi dari tingkat kesulitan terendah ke tertinggi |
 | **Insertion Sort** | Linked List | Mengurutkan daftar belajar berdasarkan durasi |
 | **Insertion Sort** | Linked List | Mengurutkan daftar belajar berdasarkan tingkat kesulitan |
+| **Binary Search Tree** | BST -> Pencarian  | Mencari Materi Rekomendasi |
 | **Preorder Traversal** | BST → root, kiri, kanan | Visualisasi struktur BST pada Mode Admin |
 ---
 

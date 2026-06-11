@@ -1,2 +1,3 @@
 # Hasil Compile / Executable (Paling penting biar .exe ga ikut ke-push)
 *.exe
+*.o

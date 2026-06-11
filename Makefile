@@ -1,40 +1,36 @@
-# Makefile untuk proyek EduGraph
-# Struktur file sesuai repositori:
-#   Code/All/Allin1.c
-#   Code/Bagian/main.c materi.c linked_list.c bst.c tree.c ui.c
-
+# Konfigurasi Compiler dan Flag
 CC = gcc
-CFLAGS = -Wall -std=c11
+CFLAGS = -Wall -Wextra -std=c99 -I$(SRC_DIR)
 
-ALL_DIR = Code/All
-MOD_DIR = Code/Bagian
+# Direktori
+SRC_DIR = Code/Bagian
+OBJ_DIR = obj
 
-ALL_SRC = $(ALL_DIR)/Allin1.c
-MOD_SRCS = $(MOD_DIR)/main.c \
-           $(MOD_DIR)/materi.c \
-           $(MOD_DIR)/linked_list.c \
-           $(MOD_DIR)/bst.c \
-           $(MOD_DIR)/tree.c \
-           $(MOD_DIR)/ui.c
+# File Sumber dan Object
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
-ALL_TARGET = allin1.exe
-MOD_TARGET = edugraph.exe
+# Nama Output Executable
+TARGET = edugraph.exe
 
-.PHONY: all modular allinone clean
+# Rule Utama
+all: $(TARGET)
 
-all: $(MOD_TARGET)
-
-modular: $(MOD_TARGET)
-
-allinone: $(ALL_TARGET)
-
-$(MOD_TARGET): $(MOD_SRCS)
+# Rule untuk mengompilasi file Object menjadi Executable
+$(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $@
 
-$(ALL_TARGET): $(ALL_SRC)
-	$(CC) $(CFLAGS) $^ -o $@
+# Rule untuk mengompilasi file .c menjadi .o
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
+# Membuat direktori obj jika belum ada (Windows kompatibel)
+$(OBJ_DIR):
+	@if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
+
+# Membersihkan file hasil kompilasi (Windows kompatibel)
 clean:
-	if exist $(MOD_TARGET) del /Q $(MOD_TARGET)
-	if exist $(ALL_TARGET) del /Q $(ALL_TARGET)
-	if exist $(MOD_DIR)\*.o del /Q $(MOD_DIR)\*.o
+	@if exist $(OBJ_DIR) rmdir /s /q $(OBJ_DIR)
+	@if exist $(TARGET) del /q $(TARGET)
+
+.PHONY: all clean
