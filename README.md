@@ -44,7 +44,7 @@ dan pengelolaan daftar belajar pengguna.
 | Struktur | Peran | Kompleksitas |
 |---|---|:---:|
 | **General Tree** | Mengelola kategori berjenjang (Root → Rumpun → Mapel) | O(n) |
-| **Binary Search** | Menyimpan materi berdasarkan tingkat kesulitan dan mendukung proses traversal | O(log n) |
+| **Binary Search Tree** | Menyimpan materi berdasarkan tingkat kesulitan dan mendukung proses traversal | O(log n) |
 | **Linked List** | Wadah Daftar Belajar dengan alokasi memori dinamis | O(1) |
 
 ### ⚙️ Algoritma
